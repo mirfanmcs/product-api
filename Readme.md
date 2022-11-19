@@ -42,9 +42,9 @@ https://{{base URL}}/api/product
 Sample request body to create product:
 ```json
 {
-"code": "<<product code>>",
-"shortDescription": "<<short description>>",
-"longDescription": "<<long description>>",
-"productPrice": "<<product price>>"
+"code": "ABC",
+"shortDescription": "Macbook Pro",
+"longDescription": "Macbook Pro, 16G RAM, 1TB SSD",
+"productPrice": "2000"
 }
 ```
