@@ -6,9 +6,11 @@ This application uses in memory database if no database is attached. You can bin
 
 
 To build the docker image run following command in the directory where Dockerfile is located:
+
 `$ docker build -t productapi .`
 
 To run the container locally run the following command:
+
 `$ docker run -p 8080:8080 productapi`
 
 To run the container with environment variables:
@@ -21,6 +23,7 @@ To run the container with environment variables:
 -p 8080:8080 productapi`
 
 Run following command to build and push image into Azure Container Registry.
+
 `$ az acr build --registry <ACR name> --image productapi .`
 
 Run following command to build container image from Azure Container Registry task. This will create task in Azure container registry and will build image on every commit into GitHub repository.
