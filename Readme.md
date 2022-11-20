@@ -14,6 +14,8 @@ To run the container locally run the following command:
 `$ docker run -p 8080:8080 productapi`
 
 To run the container with environment variables:
+
+
 `$ docker run \
 -e APPLICATION_NAME='my app' \
 -e COMPANY_NAME='my company' \
@@ -21,6 +23,7 @@ To run the container with environment variables:
 -e APPLICATION_SECRET_1='my app secret 1' \
 -e APPLICATION_SECRET_2='my app secret 2' \
 -p 8080:8080 productapi`
+
 
 Run following command to build and push image into Azure Container Registry.
 
