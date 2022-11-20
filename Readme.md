@@ -21,7 +21,12 @@ To run the container with environment variables:
 -p 8080:8080 productapi`
 
 Run following command to build and push image into Azure Container Registry.
-`$ az acr build --registry $ACR_NAME --image productapi .`
+`$ az acr build --registry <ACR name> --image productapi .`
+
+Run following command to build container image from Azure Container Registry task. This will create task in Azure container registry and will build image on every commit into GitHub repository.
+
+`az acr task create --registry <ACR name> --name buildproductapi --image productapi --context https://github.com/mirfanmcs/product-api.git --file Dockerfile --git-access-token <access_token>`
+
 
 Use following URL to access the application:
 https://{{base URL}}/api/product
@@ -48,3 +53,4 @@ Sample request body to create product:
 "productPrice": "2000"
 }
 ```
+
