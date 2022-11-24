@@ -1,0 +1,11 @@
+# Example, any change in this repo 
+# will require approval from @vriesmarcel
+# * @dkalmin
+
+# Any change inside the `/Documents` directory
+# will require approval from anyone in the organization fluentbytes and the team docsteam
+# The team will need explicit write permissions to the repo for this to work!
+# /docs @microsoft-bootcamp/docsteam
+# Create your own rules below this line without the # sign
+
+/src/main/ @mirfanmcs
