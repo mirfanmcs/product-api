@@ -1,41 +1,42 @@
 package com.irfanstore.product.service;
-
-import org.springframework.beans.factory.annotation.Value;
-import com.irfanstore.product.dto.EnvDto;
+import com.irfanstore.product.dto.InfoDto;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
-public class EnvService {
+public class InfoService {
+    public List<InfoDto> getInfo(Map<String, String> headers) {
+        List<InfoDto> infoDtos = new ArrayList<InfoDto>();
 
-    //Injecting Environment variables
+        headers.forEach((key, value) -> {
+                   infoDtos.add(new InfoDto(key, value));
+          });
 
-    @Value("${APPLICATION_NAME:Not Set}")
-    private String applicationName;
+       // getAuthenticationInfo();
 
-    @Value("${COMPANY_NAME:Not Set}")
-    private String companyName;
 
-    @Value("${COMPANY_ADDRESS:Not Set}")
-    private String companyAddress;
+        return infoDtos;
 
-    @Value("${APPLICATION_SECRET_1:Not Set}")
-    private String applicationSecret1;
 
-    @Value("${APPLICATION_SECRET_2:Not Set}")
-    private String applicationSecret2;
+    }
 
-    public List<EnvDto> getEnvVariables() {
-        List<EnvDto> envDtos = new ArrayList<EnvDto>();
+    public /*List<InfoDto>*/ void getAuthenticationInfo() {
 
-        envDtos.add(new EnvDto("APPLICATION_NAME",applicationName));
-        envDtos.add(new EnvDto("COMPANY_NAME", companyName));
-        envDtos.add(new EnvDto("COMPANY_ADDRESS", companyAddress ));
-        envDtos.add(new EnvDto("APPLICATION_SECRET_1", applicationSecret1 ));
-        envDtos.add(new EnvDto("APPLICATION_SECRET_2", applicationSecret2));
+        //List<InfoDto> infoDtos = new ArrayList<InfoDto>();
 
-        return envDtos;
+        String uri = "/.auth/me";
+
+        RestTemplate restTemplate = new RestTemplate();
+        String result = restTemplate.getForObject(uri, String.class);
+
+        System.out.println(result);
+
+        //return infoDtos;
+
     }
 
 }

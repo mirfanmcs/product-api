@@ -1,25 +1,40 @@
 package com.irfanstore.product.controller;
 
-import com.irfanstore.product.dto.EnvDto;
-import com.irfanstore.product.service.EnvService;
+import com.irfanstore.product.dto.InfoDto;
+import com.irfanstore.product.service.InfoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @RestController
-public class EnvController {
+public class InfoController {
 
     @Autowired
-    private EnvService envService;
+    private InfoService infoService;
 
-    @GetMapping(path="/api/env")
-    public ResponseEntity<List<EnvDto>> getEnv() {
+    @GetMapping("/api/info")
+    public ResponseEntity<List<InfoDto>> getInfo(@RequestHeader Map<String, String> headers) {
 
-        return new ResponseEntity<List<EnvDto>>(envService.getEnvVariables(), HttpStatus.OK);
+        return new ResponseEntity<List<InfoDto>>(infoService.getInfo(headers), HttpStatus.OK);
     }
+
+    @GetMapping("/api/username")
+    public ResponseEntity<String> username(@RequestHeader("x-ms-client-principal-name") String username) {
+        return new ResponseEntity<String>(username, HttpStatus.OK);
+    }
+
+    @GetMapping("/api/username2")
+    public ResponseEntity<String> username2(@RequestHeader("X-MS-CLIENT-PRINCIPAL-NAME") String username) {
+        return new ResponseEntity<String>(username, HttpStatus.OK);
+    }
+
 }
