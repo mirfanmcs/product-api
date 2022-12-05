@@ -1,0 +1,28 @@
+name: Deploy IaC
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  # Allow mannually trigger 
+  workflow_dispatch:
+
+env:
+  RESOURCE_GROUP: "test-irf"
+  AZURE_CONTAINER_REGISTRY: "irfacr"
+  LOCATION: "australiaeast"
+    
+jobs:
+   build:
+     runs-on: ubuntu-latest
+
+     steps:
+       - name: 'Login via Azure CLI'
+         uses: azure/login@v1
+         with:
+           creds: ${{ secrets.AZURE_CREDENTIALS }}
+           
+       - name: Create Resouse Group  
+         run: az group create --name ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }}
+       
+           
+           
