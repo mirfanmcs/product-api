@@ -33,6 +33,6 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           
       - name: Build and Push image to Azure Contianer Registry
-        run:  az acr build --registry ${{ env.ACR_NAME }} --image ${{ env.APP_NAME }} .
+        run:  az acr build --registry ${{ env.ACR_NAME }} --image ${{ env.APP_NAME }}:${{ github.sha }} .
      
        
