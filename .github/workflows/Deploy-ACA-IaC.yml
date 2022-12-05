@@ -7,12 +7,7 @@ on:
   # Allow mannually trigger 
   workflow_dispatch:
 
-env:
-  RESOURCE_GROUP: "test-irf"
-  LOCATION: "australiaeast"
-  ACR_NAME: "irfacr"
-  CONTAINER_APP_ENVIRONMENT: "productapi-environment-test-irf"
-  APP_NAME: "productapi"
+
 jobs:
    Deploy:
      runs-on: ubuntu-latest
@@ -27,19 +22,19 @@ jobs:
          run: az extension add --name containerapp --upgrade
 
        - name: Create Resouse Group  
-         run: az group create --name ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }}
+         run: az group create --name ${{ secrets.RESOURCE_GROUP }} --location ${{ secrets.LOCATION }}
        
        - name: Create Azure Container Registry
-         run: az acr create --resource-group ${{ env.RESOURCE_GROUP }} --name ${{ env.ACR_NAME }} --sku Basic --admin-enabled true
+         run: az acr create --resource-group ${{ secrets.RESOURCE_GROUP }} --name ${{ secrets.ACR_NAME }} --sku Basic --admin-enabled true
               
        - name: Create Container App Environment
-         run: az containerapp env create --name ${{ env.CONTAINER_APP_ENVIRONMENT }} --resource-group ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }}
+         run: az containerapp env create --name ${{ secrets.CONTAINER_APP_ENVIRONMENT }} --resource-group ${{secrets.RESOURCE_GROUP }} --location ${{ secrets.LOCATION }}
          
        - name: Wait for Container App Environment to setup
          run: sleep 4m
          
        - name: Create Container App with Hello World container
-         run: az containerapp create --name ${{ env.APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --environment ${{ env.CONTAINER_APP_ENVIRONMENT }} --image nginx --target-port 8080 --ingress 'external' 
+         run: az containerapp create --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --environment ${{ secrets.CONTAINER_APP_ENVIRONMENT }} --image nginx --target-port 8080 --ingress 'external' --revisions-mode 'multiple'
          
   
          
