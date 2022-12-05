@@ -8,9 +8,10 @@ on:
 
 env:
   RESOURCE_GROUP: "test-irf"
-  AZURE_CONTAINER_REGISTRY: "irfacr"
   LOCATION: "australiaeast"
-    
+  ACR_NAME: "irfacr"
+  CONTAINER_APP_ENVIRONMENT: "productapi-environment-test-irf"
+  APP_NAME: "productapi"
 jobs:
    build:
      runs-on: ubuntu-latest
@@ -24,5 +25,17 @@ jobs:
        - name: Create Resouse Group  
          run: az group create --name ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }}
        
-           
-           
+       - name: Create Azure Container Registry
+         run: az acr create --resource-group ${{ env.RESOURCE_GROUP }} --name ${{ env.ACR_NAME }} --sku Basic --admin-enabled true
+         
+       - name: Setup Container App CLI Plugin
+         run: az extension add --name containerapp --upgrade
+       
+       - name: Create Container App Environment
+         run: az containerapp env create --name ${{ env.CONTAINER_APP_ENVIRONMENT }} --resource-group ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }}
+         
+       - name: Create Container App
+         run: az containerapp create --name ${{ env.APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --environment ${{ env.CONTAINER_APP_ENVIRONMENT }} --target-port 8080 --ingress 'external' 
+         
+  
+         
