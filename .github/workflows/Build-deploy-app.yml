@@ -3,9 +3,9 @@ name: Build and Deploy Container App
 # When this action will be executed
 on:
   # Automatically trigger it when detected changes in repo
-#   push:
-#     branches: 
-#       [ main ]
+  push:
+    branches: 
+      [ main ]
   # Allow mannually trigger 
   workflow_dispatch:      
 
