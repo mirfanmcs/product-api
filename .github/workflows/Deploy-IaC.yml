@@ -7,10 +7,10 @@ on:
   workflow_dispatch:
 
 env:
-  RESOURCE_GROUP: "test-irf3"
+  RESOURCE_GROUP: "test-irf4"
   LOCATION: "australiaeast"
   ACR_NAME: "irfacr"
-  CONTAINER_APP_ENVIRONMENT: "productapi-environment-test-irf3"
+  CONTAINER_APP_ENVIRONMENT: "productapi-environment-test-irf4"
   APP_NAME: "productapi"
 jobs:
    Deploy:
@@ -35,7 +35,8 @@ jobs:
          run: az containerapp env create --name ${{ env.CONTAINER_APP_ENVIRONMENT }} --resource-group ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }}
          
        - name: Create Container App with Hello World container
-         run: az containerapp create --name ${{ env.APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --environment ${{ env.CONTAINER_APP_ENVIRONMENT }} --image mcr.microsoft.com/mcr/hello-world --registry-server docker.io --target-port 8080 --ingress 'external' 
+         #run: az containerapp create --name ${{ env.APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --environment ${{ env.CONTAINER_APP_ENVIRONMENT }} --image mcr.microsoft.com/mcr/hello-world --registry-server docker.io --target-port 8080 --ingress 'external' --registry-username mirfanmcs
+         run: az containerapp create --name ${{ env.APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --environment ${{ env.CONTAINER_APP_ENVIRONMENT }} --image nginx --target-port 8080 --ingress 'external' 
          
   
          
