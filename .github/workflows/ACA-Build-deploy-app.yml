@@ -1,4 +1,5 @@
-name: Build and Deploy Container App
+#This workflow will deploy application in Azure Container App. Every deploy will create new revision.
+name: Build and Deploy Azure Container App
 
 # When this action will be executed
 on:
