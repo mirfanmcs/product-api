@@ -1,0 +1,60 @@
+name: Trigger auto deployment for productapi
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+  push:
+    branches: 
+      [ main ]
+    paths:
+    - '**'
+    - '.github/workflows/productapi-AutoDeployTrigger-f8cdd66b-36a4-414c-8b41-55b24d460532.yml'
+
+  # Allow mannually trigger 
+  workflow_dispatch:      
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to container registry
+        uses: docker/login-action@v1
+        with:
+          registry: irfacr.azurecr.io
+          username: ${{ secrets.PRODUCTAPI_REGISTRY_USERNAME }}
+          password: ${{ secrets.PRODUCTAPI_REGISTRY_PASSWORD }}
+
+      - name: Build and push container image to registry
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: irfacr.azurecr.io/productapi:${{ github.sha }}
+          file: ./Dockerfile
+          context: ./
+
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.PRODUCTAPI_AZURE_CREDENTIALS }}
+
+
+      - name: Deploy to containerapp
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az config set extension.use_dynamic_install=yes_without_prompt
+            az containerapp registry set -n productapi -g test-irf --server irfacr.azurecr.io --username  ${{ secrets.PRODUCTAPI_REGISTRY_USERNAME }} --password ${{ secrets.PRODUCTAPI_REGISTRY_PASSWORD }}
+            az containerapp update -n productapi -g test-irf --image irfacr.azurecr.io/productapi:${{ github.sha }}
