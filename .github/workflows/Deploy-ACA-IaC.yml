@@ -1,4 +1,4 @@
-name: Deploy IaC
+name: Deploy ACA IaC
 
 # When this action will be executed
 on:
