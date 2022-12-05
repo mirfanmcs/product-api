@@ -1,0 +1,32 @@
+name: Build and Deploy Container App
+
+# When this action will be executed
+on:
+  # Automatically trigger it when detected changes in repo
+#   push:
+#     branches: 
+#       [ main ]
+  # Allow mannually trigger 
+  workflow_dispatch:      
+
+env:
+  RESOURCE_GROUP: "test-irf"
+  LOCATION: "australiaeast"
+  ACR_NAME: "irfacr"
+  CONTAINER_APP_ENVIRONMENT: "productapi-environment-test-irf"
+  APP_NAME: "productapi2"
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
+        
+      - name: Build Solution
+        run: mvn package
+        
+        
+     
+      
