@@ -21,16 +21,16 @@ jobs:
          uses: azure/login@v1
          with:
            creds: ${{ secrets.AZURE_CREDENTIALS }}
-           
+         
+       - name: Setup Container App CLI Plugin
+         run: az extension add --name containerapp --upgrade
+
 #        - name: Create Resouse Group  
 #          run: az group create --name ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }}
        
 #        - name: Create Azure Container Registry
 #          run: az acr create --resource-group ${{ env.RESOURCE_GROUP }} --name ${{ env.ACR_NAME }} --sku Basic --admin-enabled true
-         
-#        - name: Setup Container App CLI Plugin
-#          run: az extension add --name containerapp --upgrade
-       
+              
 #        - name: Create Container App Environment
 #          run: az containerapp env create --name ${{ env.CONTAINER_APP_ENVIRONMENT }} --resource-group ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }}
          
