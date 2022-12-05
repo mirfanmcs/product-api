@@ -11,7 +11,7 @@ env:
   LOCATION: "australiaeast"
   ACR_NAME: "irfacr"
   CONTAINER_APP_ENVIRONMENT: "productapi-environment-test-irf"
-  APP_NAME: "productapi2"
+  APP_NAME: "productapi"
 jobs:
    Deploy:
      runs-on: ubuntu-latest
