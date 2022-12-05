@@ -39,16 +39,17 @@ https://{{base URL}}/api/product
 
 ## API Endpoints:
 
-| Method | Endpoint    | Description    |
-| :---:   | :---: | :---: |
-| GET | /api/product | List all products |
-| GET | /api/product/{id} | Get product by ID |
+| Method |                Endpoint                |         Description         |
+| :---:   |:--------------------------------------:|:---------------------------:|
+| GET |              /api/product              |      List all products      |
+| GET |           /api/product/{id}            |      Get product by ID      |
 | GET | /api/product/productcode/{productCode} | Get product by product code |
-| GET | /api/env | List environment variables |
-| GET | /api/health | Health check endpoint |
-| POST | /api/product | Create new product. |
-| PUT | /api/product  | Update product |
-| DELETE | /api/product/{id}  | Delete product by ID |
+| GET |                /api/env                | List environment variables  |
+| GET |              /api/health               |    Health check endpoint    |
+| GET |               /api/info                |    Show request headers     |
+| POST |              /api/product              |     Create new product.     |
+| PUT |              /api/product              |       Update product        |
+| DELETE |           /api/product/{id}            |    Delete product by ID     |
 
 Sample request body to create product:
 ```json
