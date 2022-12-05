@@ -1,5 +1,5 @@
 #This workflow will deploy Azure Container App Resources
-name: Deploy Azure Container IaC
+name: Deploy Azure Container App IaC
 
 # When this action will be executed
 on:
