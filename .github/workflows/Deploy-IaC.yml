@@ -7,10 +7,10 @@ on:
   workflow_dispatch:
 
 env:
-  RESOURCE_GROUP: "test-irf3"
+  RESOURCE_GROUP: "test-irf"
   LOCATION: "australiaeast"
   ACR_NAME: "irfacr"
-  CONTAINER_APP_ENVIRONMENT: "productapi-environment-test-irf3"
+  CONTAINER_APP_ENVIRONMENT: "productapi-environment-test-irf"
   APP_NAME: "productapi"
 jobs:
    Deploy:
