@@ -10,11 +10,11 @@ on:
   workflow_dispatch:      
 
 env:
-  RESOURCE_GROUP: "test-irf"
-  LOCATION: "australiaeast"
+  #RESOURCE_GROUP: "test-irf"
+  #LOCATION: "australiaeast"
   ACR_NAME: "irfacr"
-  CONTAINER_APP_ENVIRONMENT: "productapi-environment-test-irf"
-  APP_NAME: "productapi2"
+  #CONTAINER_APP_ENVIRONMENT: "productapi-environment-test-irf"
+  APP_NAME: "productapi"
   
 jobs:
   build:
@@ -27,6 +27,12 @@ jobs:
       - name: Build Solution
         run: mvn package
         
-        
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          
+      - name: Build and Push image to Azure Contianer Registry
+        run:  az acr build --registry ${{ env.ACR_NAME }} --image ${{ env.APP_NAME }} .
      
-      
+       
