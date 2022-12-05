@@ -11,7 +11,7 @@ env:
   LOCATION: "australiaeast"
   ACR_NAME: "irfacr"
   CONTAINER_APP_ENVIRONMENT: "productapi-environment-test-irf4"
-  APP_NAME: "productapi"
+  APP_NAME: "productapi2"
 jobs:
    Deploy:
      runs-on: ubuntu-latest
@@ -22,20 +22,19 @@ jobs:
          with:
            creds: ${{ secrets.AZURE_CREDENTIALS }}
            
-       - name: Create Resouse Group  
-         run: az group create --name ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }}
+#        - name: Create Resouse Group  
+#          run: az group create --name ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }}
        
-       - name: Create Azure Container Registry
-         run: az acr create --resource-group ${{ env.RESOURCE_GROUP }} --name ${{ env.ACR_NAME }} --sku Basic --admin-enabled true
+#        - name: Create Azure Container Registry
+#          run: az acr create --resource-group ${{ env.RESOURCE_GROUP }} --name ${{ env.ACR_NAME }} --sku Basic --admin-enabled true
          
-       - name: Setup Container App CLI Plugin
-         run: az extension add --name containerapp --upgrade
+#        - name: Setup Container App CLI Plugin
+#          run: az extension add --name containerapp --upgrade
        
-       - name: Create Container App Environment
-         run: az containerapp env create --name ${{ env.CONTAINER_APP_ENVIRONMENT }} --resource-group ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }}
+#        - name: Create Container App Environment
+#          run: az containerapp env create --name ${{ env.CONTAINER_APP_ENVIRONMENT }} --resource-group ${{ env.RESOURCE_GROUP }} --location ${{ env.LOCATION }}
          
        - name: Create Container App with Hello World container
-         #run: az containerapp create --name ${{ env.APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --environment ${{ env.CONTAINER_APP_ENVIRONMENT }} --image mcr.microsoft.com/mcr/hello-world --registry-server docker.io --target-port 8080 --ingress 'external' --registry-username mirfanmcs
          run: az containerapp create --name ${{ env.APP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --environment ${{ env.CONTAINER_APP_ENVIRONMENT }} --image nginx --target-port 8080 --ingress 'external' 
          
   
