@@ -51,7 +51,7 @@ jobs:
         run: az containerapp registry set -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --server ${{ secrets.ACR_NAME }}.azurecr.io 
         
       - name: Update Container Image
-        run: az containerapp update -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --image ${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }} --revision-suffix 'ghsha-' ${{ github.sha }}
+        run: az containerapp update -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --image ${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }} --revision-suffix 'ghsha-${{ github.sha }}'
         
        
         
