@@ -34,7 +34,7 @@ jobs:
          run: sleep 4m
          
        - name: Create Container App with nginx container
-         run: az containerapp create --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --environment ${{ secrets.CONTAINER_APP_ENVIRONMENT }} --image nginx --target-port 8080 --ingress 'external' --revisions-mode 'single'
+         run: az containerapp create --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --environment ${{ secrets.CONTAINER_APP_ENVIRONMENT }} --image nginx --target-port 8080 --ingress 'external' --revisions-mode 'multiple'
          
   
          
