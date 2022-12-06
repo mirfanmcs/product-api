@@ -50,7 +50,20 @@ jobs:
       - name: Update Container Image
         run: az containerapp update -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --image ${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}
       
-      
+      - name: Swith Traffic to 0% on latest revesion for Blue/Green testing
+        #Get revision count
+        run:  REV_COUNT=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "length([])")
+        #Set the array index of previous revision
+      - run:  PREV_REV_INDEX="$((REV_COUNT-2))"
+        #Get the name of previous revision
+      - run:  PREV_REV_NAME=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "[].{Name:name}[$PREV_REV_INDEX].Name")
+        #Remove double quotes from revision name
+      - run:  PREV_REV_NAME=$(sed -e 's/^"//' -e 's/"$//' <<<"$PREV_REV_NAME") 
+        #Set the weight of 0% on latest revision and 100% on previous revision
+      - run:  az containerapp ingress traffic set -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --revision-weight latest=0 $PREV_REV_NAME=100
+
+
+
          
         
        
