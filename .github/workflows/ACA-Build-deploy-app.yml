@@ -38,7 +38,7 @@ jobs:
 #     needs: Build
     steps:
       - run: VAR1="hello"
-      - run: echo $VAR1
+      - run: echo ${{ env.VAR1 }}
 
 #       - name: 'Login via Azure CLI'
 #         uses: azure/login@v1
