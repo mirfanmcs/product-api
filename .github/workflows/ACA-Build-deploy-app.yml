@@ -37,13 +37,6 @@ jobs:
     runs-on: ubuntu-latest
 #     needs: Build
     steps:
-#       - run: VAR1="hello"
-#       - run: echo ${{ env.VAR1 }}
-        - run: |
-              echo "Hello World" 
-              VAR1="This is variable 1"
-              echo $VAR1
-
 #       - name: 'Login via Azure CLI'
 #         uses: azure/login@v1
 #         with:
@@ -61,8 +54,12 @@ jobs:
 #       # Updating container image creates new revision. ACA transfer 100% traffic to new revision which is not ideal for Blue/Green deployment. 
 #       # We need to set 0% traffic on new revision and 100% on previous revision
       
-#       - name: Swith Traffic to 0% on latest revesion for Blue/Green testing
-#         #Get revision count
+      - name: Swith Traffic to 0% on latest revesion for Blue/Green testing
+        run: |
+              echo "Hello World" 
+              VAR1="This is variable 1"
+              echo $VAR1
+        #Get revision count
 #         run:  REV_COUNT=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "length([])")
 #         #Set the array index of previous revision
 #       - run:  PREV_REV_INDEX="$((REV_COUNT-2))"
