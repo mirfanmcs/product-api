@@ -40,7 +40,7 @@ public class InfoController {
     @GetMapping("/api/greeting")
     public ResponseEntity<String> greeting() {
 
-        return new ResponseEntity<String>("Hello world3", HttpStatus.OK);
+        return new ResponseEntity<String>("Hello world4", HttpStatus.OK);
     }
 
 }
