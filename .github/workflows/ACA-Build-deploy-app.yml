@@ -54,6 +54,6 @@ jobs:
       - name: check mode
         run: REVISION_MODE=$(az containerapp show --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query properties.configuration.activeRevisionsMode)
           
-      - run: if [[ $REVISION_MODE == '"Single"' ]]; then  echo "match"; fi
+      - run: if [[ "$REVISION_MODE" == '"Single"' ]]; then  echo "match"; fi
         
        
