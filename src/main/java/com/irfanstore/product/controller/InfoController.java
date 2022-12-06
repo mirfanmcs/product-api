@@ -37,10 +37,10 @@ public class InfoController {
         return new ResponseEntity<String>(username, HttpStatus.OK);
     }
 
-    @GetMapping("/api/greeting")
-    public ResponseEntity<String> greeting() {
-
-        return new ResponseEntity<String>("Hello world4", HttpStatus.OK);
-    }
+//    @GetMapping("/api/greeting")
+//    public ResponseEntity<String> greeting() {
+//
+//        return new ResponseEntity<String>("Hello world", HttpStatus.OK);
+//    }
 
 }
