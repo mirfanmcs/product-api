@@ -37,8 +37,12 @@ jobs:
     runs-on: ubuntu-latest
 #     needs: Build
     steps:
-      - run: VAR1="hello"
-      - run: echo ${{ env.VAR1 }}
+#       - run: VAR1="hello"
+#       - run: echo ${{ env.VAR1 }}
+        - run: |
+              echo "Hello World" 
+              VAR1="This is variable 1"
+              echo $VAR1
 
 #       - name: 'Login via Azure CLI'
 #         uses: azure/login@v1
