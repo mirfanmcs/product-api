@@ -50,6 +50,9 @@ jobs:
 #       - name: Update Container Image
 #         run: az containerapp update -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --image ${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}
       
+      # Updating container image creates new revision. ACA transfer 100% traffic to new revision which is not ideal for Blue/Green deployment. 
+      # We need to set 0% traffic on new revision and 100% on previous revision
+      
       - name: Swith Traffic to 0% on latest revesion for Blue/Green testing
         #Get revision count
         run:  REV_COUNT=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "length([])")
@@ -59,8 +62,9 @@ jobs:
       - run:  PREV_REV_NAME=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "[].{Name:name}[$PREV_REV_INDEX].Name")
         #Remove double quotes from revision name
       - run:  PREV_REV_NAME=$(sed -e 's/^"//' -e 's/"$//' <<<"$PREV_REV_NAME")
-      #- run: echo "$PREV_REV_NAME"
-      #- run: echo "$PREV_REV_NAME" > "prev-rev-name.txt"
+      - run: echo "$PREV_REV_NAME"
+      - run: echo "$PREV_REV_NAME" > "prev-rev-name.txt"
+      - run: cat prev-rev-name.txt
         #Get name of latest version      
       - run: LATEST_REV_NAME=$(az containerapp show --name productapi --resource-group test-irf2 --query properties.latestRevisionName)
         #Remove double quote from revision name
