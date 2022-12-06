@@ -50,14 +50,9 @@ jobs:
       - name: Update Container Image
         run: az containerapp update -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --image ${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}
       
-#       - name: Set Revision Mode after first deployment
-#         run: az containerapp revision set-mode --mode multiple --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }}
+      - name: Set Revision Mode after first deployment
+        run: az containerapp revision set-mode --mode multiple --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }}
         
          
-      - name: Check Revision Mode
-        run: REVISION_MODE=$(az containerapp show --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query properties.configuration.activeRevisionsMode)
-          
-      - name: Set Revision Mode to multiple if not set
-        run: if [[ "$REVISION_MODE" == '"Single"' ]]; then  az containerapp revision set-mode --mode multiple --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }}; fi
         
        
