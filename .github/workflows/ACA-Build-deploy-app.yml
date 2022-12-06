@@ -59,7 +59,7 @@ jobs:
       - run:  PREV_REV_NAME=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "[].{Name:name}[$PREV_REV_INDEX].Name")
         #Remove double quotes from revision name
       - run:  PREV_REV_NAME=$(sed -e 's/^"//' -e 's/"$//' <<<"$PREV_REV_NAME")
-      - run: echo "$PREV_REV_NAME"
+      - run: echo "${{ PREV_REV_NAME }}"
       - run: echo "$PREV_REV_NAME" > "prev-rev-name.txt"
         #Get name of latest version      
       - run: LATEST_REV_NAME=$(az containerapp show --name productapi --resource-group test-irf2 --query properties.latestRevisionName)
