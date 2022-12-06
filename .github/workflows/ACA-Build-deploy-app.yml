@@ -59,16 +59,16 @@ jobs:
       - run:  PREV_REV_NAME=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "[].{Name:name}[$PREV_REV_INDEX].Name")
         #Remove double quotes from revision name
       - run:  PREV_REV_NAME=$(sed -e 's/^"//' -e 's/"$//' <<<"$PREV_REV_NAME")
-      - run: echo "${{ PREV_REV_NAME }}"
-      - run: echo "$PREV_REV_NAME" > "prev-rev-name.txt"
+      #- run: echo "$PREV_REV_NAME"
+      #- run: echo "$PREV_REV_NAME" > "prev-rev-name.txt"
         #Get name of latest version      
       - run: LATEST_REV_NAME=$(az containerapp show --name productapi --resource-group test-irf2 --query properties.latestRevisionName)
         #Remove double quote from revision name
       - run: LATEST_REV_NAME=$(sed -e 's/^"//' -e 's/"$//' <<<"$LATEST_REV_NAME")
-      - run: echo "$LATEST_REV_NAME"
-      - run: echo "$LATEST_REV_NAME" > "latest-rev-name.txt"
+     # - run: echo "$LATEST_REV_NAME"
+     # - run: echo "$LATEST_REV_NAME" > "latest-rev-name.txt"
         #Set the weight of 0% on latest revision and 100% on previous revision
-#       - run:  az containerapp ingress traffic set -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --revision-weight $LATEST_REV_NAME=0 $PREV_REV_NAME=100
+      - run:  az containerapp ingress traffic set -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --revision-weight latest=100 $PREV_REV_NAME=0
 
 
 
