@@ -13,7 +13,8 @@ on:
   # Allow mannually trigger 
   workflow_dispatch:      
 
-  
+env: 
+  VAR1: ""
 jobs:
 #   Build:
 #     runs-on: ubuntu-latest
@@ -36,8 +37,8 @@ jobs:
     runs-on: ubuntu-latest
 #     needs: Build
     steps:
-      - run: export var="hello"
-      - run: echo "${{ env.var }}"
+      - run: VAR1="hello"
+      - run: echo $VAR1
 
 #       - name: 'Login via Azure CLI'
 #         uses: azure/login@v1
