@@ -21,6 +21,9 @@ jobs:
        - name: Setup Container App CLI Plugin
          run: az extension add --name containerapp --upgrade
 
+       - name: AZ Config Set Extension
+         run: az config set extension.use_dynamic_install=yes_without_prompt
+        
        - name: Create Resouse Group  
          run: az group create --name ${{ secrets.RESOURCE_GROUP }} --location ${{ secrets.LOCATION }}
        
@@ -36,5 +39,7 @@ jobs:
        - name: Create Container App with nginx container
          run: az containerapp create --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --environment ${{ secrets.CONTAINER_APP_ENVIRONMENT }} --image nginx --target-port 8080 --ingress 'external' --revisions-mode 'multiple'
          
-  
+       - name: Set Container Registry
+         run: az containerapp registry set -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --server ${{ secrets.ACR_NAME }}.azurecr.io 
+
          
