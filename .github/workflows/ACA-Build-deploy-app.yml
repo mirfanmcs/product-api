@@ -24,8 +24,13 @@ jobs:
         
       - name: Build Solution
         run: mvn package
+        
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
           
-      - name: Build and Push image to Azure Contianer Registry
+      - name: Build and Push image to Azure Container Registry
         run:  az acr build --registry ${{ secrets.ACR_NAME }} --image ${{ secrets.APP_NAME }}:${{ github.sha }} .
   Deploy:  
     runs-on: ubuntu-latest
