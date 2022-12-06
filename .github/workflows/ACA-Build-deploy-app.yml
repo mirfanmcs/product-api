@@ -7,13 +7,12 @@ on:
   push:
     branches: 
       [ main ]
+    paths:
+      - 'src/main/java/com/irfanstore/product/**'
+      
   # Allow mannually trigger 
   workflow_dispatch:      
 
-env:
-  RESOURCE_GROUP: "test-irf3"
-  ACR_NAME: "irfacr"
-  APP_NAME: "productapi"
   
 jobs:
   Build:
@@ -32,7 +31,7 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
           
       - name: Build and Push image to Azure Contianer Registry
-        run:  az acr build --registry ${{ env.ACR_NAME }} --image ${{ env.APP_NAME }}:${{ github.sha }} .
+        run:  az acr build --registry ${{ secrets.ACR_NAME }} --image ${{ secrets.APP_NAME }}:${{ github.sha }} .
   Deploy:  
     runs-on: ubuntu-latest
     needs: Build
@@ -49,12 +48,13 @@ jobs:
         run: az config set extension.use_dynamic_install=yes_without_prompt
          
       - name: Set Container Registry
-        run: az containerapp registry set -n ${{ env.APP_NAME }} -g ${{ env.RESOURCE_GROUP }} --server ${{ env.ACR_NAME }}.azurecr.io 
+        run: az containerapp registry set -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --server ${{ secrets.ACR_NAME }}.azurecr.io 
         
       - name: Update Container Image
-        run: az containerapp update -n ${{ env.APP_NAME }} -g ${{ env.RESOURCE_GROUP }} --image ${{ env.ACR_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
+        run: az containerapp update -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --image ${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}
         
-        
+      - name: Set Revision Mode after first deployment
+        run: az containerapp revision set-mode --mode multiple --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }}
        
         
        
