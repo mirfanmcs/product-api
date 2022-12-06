@@ -37,16 +37,16 @@ jobs:
     runs-on: ubuntu-latest
 #     needs: Build
     steps:
-#       - name: 'Login via Azure CLI'
-#         uses: azure/login@v1
-#         with:
-#           creds: ${{ secrets.AZURE_CREDENTIALS }}    
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}    
        
-#       - name: Setup Container App CLI Plugin
-#         run: az extension add --name containerapp --upgrade
+      - name: Setup Container App CLI Plugin
+        run: az extension add --name containerapp --upgrade
          
-#       - name: AZ Config Set Extension
-#         run: az config set extension.use_dynamic_install=yes_without_prompt
+      - name: AZ Config Set Extension
+        run: az config set extension.use_dynamic_install=yes_without_prompt
         
 # #       - name: Update Container Image
 # #         run: az containerapp update -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --image ${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}
@@ -56,9 +56,17 @@ jobs:
       
       - name: Swith Traffic to 0% on latest revesion for Blue/Green testing
         run: |
-              echo "Hello World" 
-              VAR1="This is variable 1"
-              echo $VAR1
+              REV_COUNT=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "length([])")
+              PREV_REV_INDEX="$((REV_COUNT-2))"
+              PREV_REV_NAME=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "[].{Name:name}[$PREV_REV_INDEX].Name")
+              PREV_REV_NAME=$(sed -e 's/^"//' -e 's/"$//' <<<"$PREV_REV_NAME")
+              az containerapp ingress traffic set -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --revision-weight latest=100 $PREV_REV_NAME=0
+
+
+
+#              echo "Hello World" 
+#              VAR1="This is variable 1"
+#              echo $VAR1
         #Get revision count
 #         run:  REV_COUNT=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "length([])")
 #         #Set the array index of previous revision
