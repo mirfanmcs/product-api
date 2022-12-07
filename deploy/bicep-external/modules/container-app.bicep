@@ -35,6 +35,12 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' ={
       ingress: {
         targetPort: httpPort
         external: true
+        traffic: [
+          {
+            latestRevision: false
+            weight: 100
+          }
+        ]
       }
 //      dapr: {
 //        enabled: true
