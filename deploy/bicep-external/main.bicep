@@ -6,7 +6,7 @@ param logAnalyticsWorkspaceName string = 'log-${uniqueSuffix}'
 param appInsightsName string = 'appinsights-${uniqueSuffix}'
 param registryName string
 param previousRevision string
-param appName string
+//param appName string
 
 @secure()
 param registryPassword string
@@ -65,7 +65,7 @@ module productApiapp 'modules/container-app.bicep' = {
   params: {
     location: location
     containerAppsEnvName: containerAppsEnvName
-    appName: appName
+    appName: 'productapi'
     registryPassword: registryPassword
     registryUsername: registryUsername
     containerImage: containerImage
