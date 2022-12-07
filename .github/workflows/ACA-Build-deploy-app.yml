@@ -40,29 +40,33 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}    
        
-      - name: Setup Container App CLI Plugin
-        run: az extension add --name containerapp --upgrade
+#       - name: Setup Container App CLI Plugin
+#         run: az extension add --name containerapp --upgrade
          
-      - name: AZ Config Set Extension
-        run: az config set extension.use_dynamic_install=yes_without_prompt
+#       - name: AZ Config Set Extension
+#         run: az config set extension.use_dynamic_install=yes_without_prompt
         
-      - name: Update Container Image
-        run: az containerapp update -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --image ${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}
+#       - name: Update Container Image
+#         run: az containerapp update -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --image ${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}
       
        # Updating container image creates new revision. ACA transfer 100% traffic to new revision which is not ideal for Blue/Green deployment. 
        # We need to set 0% traffic on new revision and 100% on previous revision
       
-      - name: Swith Traffic to 0% on latest revesion for Blue/Green testing
+#       - name: Swith Traffic to 0% on latest revesion for Blue/Green testing
+#         run: |
+#               REV_COUNT=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "length([])")
+#               PREV_REV_INDEX="$((REV_COUNT-2))"
+#               PREV_REV_NAME=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "[].{Name:name}[$PREV_REV_INDEX].Name")
+#               PREV_REV_NAME=$(sed -e 's/^"//' -e 's/"$//' <<<"$PREV_REV_NAME")
+#               az containerapp ingress traffic set -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --revision-weight latest=0 $PREV_REV_NAME=100
+
+
+
+      - name: Deploy Bicep
         run: |
-              REV_COUNT=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "length([])")
-              PREV_REV_INDEX="$((REV_COUNT-2))"
-              PREV_REV_NAME=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "[].{Name:name}[$PREV_REV_INDEX].Name")
-              PREV_REV_NAME=$(sed -e 's/^"//' -e 's/"$//' <<<"$PREV_REV_NAME")
-              az containerapp ingress traffic set -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --revision-weight latest=0 $PREV_REV_NAME=100
-
-
-
-
-         
+            az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/bicep-external/main.bicep --parameters \
+            productApiImage ='${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}' \
+            registryName=${{ secrets.ACR_NAME }}.azurecr.io 
+            
         
        
