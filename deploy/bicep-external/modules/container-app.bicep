@@ -2,8 +2,8 @@ param containerAppsEnvName string
 param appName string 
 param location string 
 @secure()
-//param registryPassword string
-//param registryUsername string
+param registryPassword string
+param registryUsername string
 param registryServer string
 param httpPort int
 param containerImage string 
@@ -22,13 +22,13 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' ={
       secrets: [
         {
           name: 'registrypassword'
-    //      value: registryPassword
+          value: registryPassword
         }
       ]
       registries: [
         {
           server: registryServer
-        //  username: registryUsername
+          username: registryUsername
           passwordSecretRef: 'registrypassword'
         }
       ]
