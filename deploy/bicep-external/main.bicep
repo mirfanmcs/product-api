@@ -93,10 +93,9 @@ module daprStateStore 'modules/dapr-statestore.bicep' = {
 }
 */
 module productApiapp 'modules/container-app.bicep' = {
-  name: '${deployment().name}--album-viewer'
+  name: '${deployment().name}--productapi'
   dependsOn: [
     containerAppsEnv
-    albumServiceCapp
   ]
   params: {
     location: location
