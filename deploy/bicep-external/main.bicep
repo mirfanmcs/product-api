@@ -9,7 +9,7 @@ param appInsightsName string = 'appinsights-${uniqueSuffix}'
 param registryName string
 param previousRevision string
 param appName string 
-param containerPort string
+param containerPort int
 
 @secure()
 param registryPassword string
