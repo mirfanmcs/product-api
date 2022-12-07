@@ -5,8 +5,8 @@ param containerAppsEnvName string = 'env-${uniqueSuffix}'
 param logAnalyticsWorkspaceName string = 'log-${uniqueSuffix}'
 param appInsightsName string = 'appinsights-${uniqueSuffix}'
 param registryName string
-//param previousRevision string
-//param appName string
+param appName string
+param containerPort int 
 
 @secure()
 param registryPassword string
@@ -65,18 +65,15 @@ module productApiapp 'modules/container-app.bicep' = {
   params: {
     location: location
     containerAppsEnvName: containerAppsEnvName
-    appName: 'productapi'
+    appName: appName
     registryPassword: registryPassword
     registryUsername: registryUsername
     containerImage: containerImage
-    httpPort: 8080
-    //previousRevision: previousRevision
+    httpPort: containerPort
     registryServer: registryName
   }
 }
 
 output env array=[
   'Environment name: ${containerAppsEnv.name}'
-//  'Storage account name: ${storageAccount.name}'
-//  'Storage container name: ${blobContainer.name}'
 ]
