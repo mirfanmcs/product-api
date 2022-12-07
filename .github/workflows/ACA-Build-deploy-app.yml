@@ -74,26 +74,20 @@ jobs:
          
       - name: AZ Config Set Extension
         run: az config set extension.use_dynamic_install=yes_without_prompt
-
-## need latest revision here not the previous revision. 
-# az containerapp show --name productapi --resource-group test-irf --query 'properties.latestRevisionName'
-#                 REV_COUNT=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "length([])")
-#                 PREV_REV_INDEX="$((REV_COUNT-2))"
-#                 PREV_REV_NAME=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "[].{Name:name}[$PREV_REV_INDEX].Name")
-#                 PREV_REV_NAME=$(sed -e 's/^"//' -e 's/"$//' <<<"$PREV_REV_NAME")
-#                 echo $PREV_REV_NAME
-                
+              
       - name: Deploy Bicep
         run: |
                 ACR_USERNAME=$(az acr credential show -n ${{ secrets.ACR_NAME }} --query username)
                 ACR_USERNAME=$(sed -e 's/^"//' -e 's/"$//' <<<"$ACR_USERNAME")
                 ACR_PASSWORD=$(az acr credential show -n ${{ secrets.ACR_NAME }} --query  passwords[0].value)
-                ACR_PASSWORD=$(sed -e 's/^"//' -e 's/"$//' <<<"$ACR_PASSWORD")                         
+                ACR_PASSWORD=$(sed -e 's/^"//' -e 's/"$//' <<<"$ACR_PASSWORD")
                 az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/bicep-external/main.bicep --parameters \
                 containerImage='${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}' \
                 registryName='${{ secrets.ACR_NAME }}.azurecr.io' \
                 registryUsername=$ACR_USERNAME \
-                registryPassword=$ACR_PASSWORD 
+                registryPassword=$ACR_PASSWORD \
+                appName='${{ secrets.APP_NAME }}' \
+                containerPort=8080
                  
                 
                 
