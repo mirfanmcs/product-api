@@ -4,15 +4,15 @@ param uniqueSuffix string = 'da-${uniqueString(uniqueSeed)}'
 param containerAppsEnvName string = 'env-${uniqueSuffix}'
 param logAnalyticsWorkspaceName string = 'log-${uniqueSuffix}'
 param appInsightsName string = 'appinsights-${uniqueSuffix}'
-param storageAccountName string = 'storage${replace(uniqueSuffix, '-', '')}'
-param blobContainerName string = 'albums'
+//param storageAccountName string = 'storage${replace(uniqueSuffix, '-', '')}'
+//param blobContainerName string = 'albums'
 param registryName string
 @secure()
-param registryPassword string
+//param registryPassword string
 
-param registryUsername string
-param apiImage string
-param viewerImage string
+//param registryUsername string
+param productApiImage string
+//param viewerImage string
 
 
 // Log analytics and App Insights for visibility 
@@ -92,7 +92,7 @@ module daprStateStore 'modules/dapr-statestore.bicep' = {
 }
 }
 */
-module albumViewerCapp 'modules/container-app.bicep' = {
+module productApiapp 'modules/container-app.bicep' = {
   name: '${deployment().name}--album-viewer'
   dependsOn: [
     containerAppsEnv
@@ -102,31 +102,13 @@ module albumViewerCapp 'modules/container-app.bicep' = {
     location: location
     containerAppsEnvName: containerAppsEnvName
     appName: 'productapi'
-    registryPassword: registryPassword
-    registryUsername: registryUsername
-    containerImage: viewerImage
-    httpPort: 3000
-    registryServer: registryName
-  }
-}
-/*
-module productApiapp 'modules/container-app.bicep' = {
-  name: '${deployment().name}--album-api'
-  dependsOn: [
-    containerAppsEnv
-  ]
-  params: {
-    location: location
-    containerAppsEnvName: containerAppsEnvName
-    appName: 'album-api'
-    registryPassword: registryPassword
-    registryUsername: registryUsername
-    containerImage: apiImage
+    //registryPassword: registryPassword
+    //registryUsername: registryUsername
+    containerImage: productApiImage
     httpPort: 8080
     registryServer: registryName
   }
 }
-*/
 
 output env array=[
   'Environment name: ${containerAppsEnv.name}'
