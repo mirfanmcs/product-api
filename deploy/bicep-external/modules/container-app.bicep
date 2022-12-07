@@ -39,7 +39,7 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' ={
         traffic: [
           {
             latestRevision: false
-            revisionName: 'productapi--b8desjc'
+            revisionName: 'productapi-revision'
             weight: 100
           }
         ]
