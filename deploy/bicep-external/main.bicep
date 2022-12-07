@@ -8,9 +8,9 @@ param appInsightsName string = 'appinsights-${uniqueSuffix}'
 //param blobContainerName string = 'albums'
 param registryName string
 @secure()
-//param registryPassword string
+param registryPassword string
 
-//param registryUsername string
+param registryUsername string
 param containerImage string
 //param viewerImage string
 
@@ -101,8 +101,8 @@ module productApiapp 'modules/container-app.bicep' = {
     location: location
     containerAppsEnvName: containerAppsEnvName
     appName: 'productapi'
-    //registryPassword: registryPassword
-    //registryUsername: registryUsername
+    registryPassword: registryPassword
+    registryUsername: registryUsername
     containerImage: containerImage
     httpPort: 8080
     registryServer: registryName
