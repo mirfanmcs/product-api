@@ -90,8 +90,8 @@ jobs:
                 registryName='${{ secrets.ACR_NAME }}.azurecr.io' \
                 registryUsername=$ACR_USERNAME \
                 registryPassword=$ACR_PASSWORD \ 
-                previousRevision=$PREV_REV_NAME
-                appName=${{ secrets.APP_NAME }}
+                previousRevision=$PREV_REV_NAME \
+                appName=${{ secrets.APP_NAME }} \
                 containerPort=8080
                 
           
