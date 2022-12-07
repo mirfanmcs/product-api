@@ -2,8 +2,8 @@ param containerAppsEnvName string
 param appName string 
 param location string 
 @secure()
-param registryPassword string
-param registryUsername string
+//param registryPassword string
+//param registryUsername string
 param registryServer string
 param httpPort int
 param containerImage string 
