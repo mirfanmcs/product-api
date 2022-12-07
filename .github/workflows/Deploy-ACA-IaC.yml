@@ -24,7 +24,7 @@ jobs:
 #        - name: AZ Config Set Extension
 #          run: az config set extension.use_dynamic_install=yes_without_prompt
         
-       - name: Create Resouse Group  
+       - name: Create Resource Group  
          run: az group create --name ${{ secrets.RESOURCE_GROUP }} --location ${{ secrets.LOCATION }}
        
        - name: Create Azure Container Registry
