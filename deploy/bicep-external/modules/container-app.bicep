@@ -18,6 +18,7 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' ={
   properties:{
     managedEnvironmentId: caEnvironment.id
     configuration: {
+      activeRevisionsMode: 'multiple'
       //secrets: [
 //        {
   //        name: 'registrypassword'
