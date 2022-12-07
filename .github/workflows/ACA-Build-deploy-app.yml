@@ -75,8 +75,8 @@ jobs:
                 az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/bicep-external/main.bicep --parameters \
                 containerImage='irfacr.azurecr.io/productapi:f1f1c776f7672b09da9c472bdd3552829b198353' \
                 registryName='irfacr.azurecr.io' \
-                registryUsername='$ACR_USERNAME' \
-                registryPassword='$ACR_PASSWORD'
+                registryUsername=$ACR_USERNAME \
+                registryPassword=$ACR_PASSWORD
                 
 #         run: |
 #               az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/bicep-external/main.bicep --parameters \
