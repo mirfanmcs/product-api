@@ -64,11 +64,12 @@ jobs:
 #-------------------------- DEPLOY VIA BICEP ---------------------------------------------
       - name: Checkout to the branch
         uses: actions/checkout@v2
-        
+       
+       #     IMAGE= ${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}
       - name: Deploy Bicep
         run: |
-            IMAGE= ${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}
-            az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/bicep-external/main.bicep --parameters \
+             IMAGE='irfacr.azurecr.io/productapi:29524ba508238e1b551de45f16c1632a064a79b5'
+             az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/bicep-external/main.bicep --parameters \
                 productApiImage ='$IMAGE' \
                 registryName=${{ secrets.ACR_NAME }}.azurecr.io 
                 
