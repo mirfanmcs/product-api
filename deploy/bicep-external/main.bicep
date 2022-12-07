@@ -110,7 +110,7 @@ module albumViewerCapp 'modules/container-app.bicep' = {
   }
 }
 /*
-module albumServiceCapp 'modules/container-app.bicep' = {
+module productApiapp 'modules/container-app.bicep' = {
   name: '${deployment().name}--album-api'
   dependsOn: [
     containerAppsEnv
