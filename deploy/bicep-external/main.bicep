@@ -5,7 +5,7 @@ param containerAppsEnvName string = 'env-${uniqueSuffix}'
 param logAnalyticsWorkspaceName string = 'log-${uniqueSuffix}'
 param appInsightsName string = 'appinsights-${uniqueSuffix}'
 param registryName string
-param previousRevision string
+//param previousRevision string
 //param appName string
 
 @secure()
@@ -70,7 +70,7 @@ module productApiapp 'modules/container-app.bicep' = {
     registryUsername: registryUsername
     containerImage: containerImage
     httpPort: 8080
-    previousRevision: previousRevision
+    //previousRevision: previousRevision
     registryServer: registryName
   }
 }
