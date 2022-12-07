@@ -16,20 +16,21 @@ jobs:
        - name: 'Login via Azure CLI'
          uses: azure/login@v1
          with:
-           creds: ${{ secrets.AZURE_CREDENTIALS }}
-         
-#        - name: Setup Container App CLI Plugin
-#          run: az extension add --name containerapp --upgrade
-
-#        - name: AZ Config Set Extension
-#          run: az config set extension.use_dynamic_install=yes_without_prompt
+           creds: ${{ secrets.AZURE_CREDENTIALS }}       
         
        - name: Create Resource Group  
          run: az group create --name ${{ secrets.RESOURCE_GROUP }} --location ${{ secrets.LOCATION }}
        
        - name: Create Azure Container Registry
          run: az acr create --resource-group ${{ secrets.RESOURCE_GROUP }} --name ${{ secrets.ACR_NAME }} --sku Basic --admin-enabled true
-              
+
+#------------------- Commit it if using Bicpe --------------------------------------------------------------------------
+#        - name: Setup Container App CLI Plugin
+#          run: az extension add --name containerapp --upgrade
+
+#        - name: AZ Config Set Extension
+#          run: az config set extension.use_dynamic_install=yes_without_prompt
+
 #        - name: Create Container App Environment
 #          run: az containerapp env create --name ${{ secrets.CONTAINER_APP_ENVIRONMENT }} --resource-group ${{secrets.RESOURCE_GROUP }} --location ${{ secrets.LOCATION }}
          
@@ -41,5 +42,5 @@ jobs:
          
 #        - name: Set Container Registry
 #          run: az containerapp registry set -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --server ${{ secrets.ACR_NAME }}.azurecr.io 
-
+#--------------------------------------------------------------------------------------------------------------------------
          
