@@ -7,6 +7,10 @@ param appInsightsName string = 'appinsights-${uniqueSuffix}'
 //param storageAccountName string = 'storage${replace(uniqueSuffix, '-', '')}'
 //param blobContainerName string = 'albums'
 param registryName string
+param previousRevision string
+param appName string 
+param containerPort string
+
 @secure()
 param registryPassword string
 
@@ -40,28 +44,6 @@ resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
   }
 }
 
-// Storage Account to act as state store
-/*
-resource storageAccount 'Microsoft.Storage/storageAccounts@2021-06-01' = {
-  name: storageAccountName
-  location: location
-  kind: 'StorageV2'
-  sku: {
-    name: 'Standard_LRS'
-  }
-}
-
-resource blobService 'Microsoft.Storage/storageAccounts/blobServices@2021-06-01' = {
-  parent: storageAccount
-  name: 'default'
-}
-
-resource blobContainer 'Microsoft.Storage/storageAccounts/blobServices/containers@2021-06-01' = {
-  parent: blobService
-  name: blobContainerName
-}
-*/
-
 // Container Apps environment 
 resource containerAppsEnv 'Microsoft.App/managedEnvironments@2022-03-01' = {
   name: containerAppsEnvName
@@ -78,20 +60,6 @@ resource containerAppsEnv 'Microsoft.App/managedEnvironments@2022-03-01' = {
   }
 }
 
-/*
-module daprStateStore 'modules/dapr-statestore.bicep' = {
-  name: '${deployment().name}--dapr-statestore'
-  dependsOn:[
-    storageAccount
-    containerAppsEnv
-  ]
-  params: {
-    containerAppsEnvName : containerAppsEnvName
-    storage_account_name: storageAccountName
-    storage_container_name: blobContainerName
-}
-}
-*/
 module productApiapp 'modules/container-app.bicep' = {
   name: '${deployment().name}--productapi'
   dependsOn: [
@@ -100,11 +68,12 @@ module productApiapp 'modules/container-app.bicep' = {
   params: {
     location: location
     containerAppsEnvName: containerAppsEnvName
-    appName: 'productapi'
+    appName: appName
     registryPassword: registryPassword
     registryUsername: registryUsername
     containerImage: containerImage
-    httpPort: 8080
+    httpPort: containerPort
+    previousRevision: previousRevision
     registryServer: registryName
   }
 }
