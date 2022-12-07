@@ -70,7 +70,7 @@ jobs:
         run: |
              IMAGE='irfacr.azurecr.io/productapi:29524ba508238e1b551de45f16c1632a064a79b5'
              az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/bicep-external/main.bicep --parameters \
-                productApiImage ='$IMAGE' \
+                productApiImage ='irfacr.azurecr.io/productapi:29524ba508238e1b551de45f16c1632a064a79b5' \
                 registryName=${{ secrets.ACR_NAME }}.azurecr.io 
                 
         #run: |
