@@ -4,12 +4,9 @@ param uniqueSuffix string = 'da-${uniqueString(uniqueSeed)}'
 param containerAppsEnvName string = 'env-${uniqueSuffix}'
 param logAnalyticsWorkspaceName string = 'log-${uniqueSuffix}'
 param appInsightsName string = 'appinsights-${uniqueSuffix}'
-//param storageAccountName string = 'storage${replace(uniqueSuffix, '-', '')}'
-//param blobContainerName string = 'albums'
 param registryName string
 param previousRevision string
-param appName string 
-param containerPort int
+param appName string
 
 @secure()
 param registryPassword string
@@ -72,7 +69,7 @@ module productApiapp 'modules/container-app.bicep' = {
     registryPassword: registryPassword
     registryUsername: registryUsername
     containerImage: containerImage
-    httpPort: containerPort
+    httpPort: 8080
     previousRevision: previousRevision
     registryServer: registryName
   }
