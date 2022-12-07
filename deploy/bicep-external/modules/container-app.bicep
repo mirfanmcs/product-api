@@ -38,7 +38,7 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' ={
         traffic: [
           {
             latestRevision: false
-            weight: 100
+            weight: 0
           }
         ]
       }
