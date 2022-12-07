@@ -33,7 +33,7 @@ jobs:
         run:  az acr build --registry ${{ secrets.ACR_NAME }} --image ${{ secrets.APP_NAME }}:${{ github.sha }} .
   Deploy:  
     runs-on: ubuntu-latest
-#     needs: Build
+    needs: Build
     steps:
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
