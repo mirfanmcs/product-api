@@ -91,7 +91,7 @@ jobs:
                 registryUsername=$ACR_USERNAME \
                 registryPassword=$ACR_PASSWORD \ 
                 previousRevision=$PREV_REV_NAME \
-                appName=${{ secrets.APP_NAME }} \
+                appName='${{ secrets.APP_NAME }}' \
                 containerPort=8080
                 
           
