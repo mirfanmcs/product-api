@@ -7,6 +7,7 @@ param registryUsername string
 param registryServer string
 param httpPort int
 param containerImage string 
+param previousRevision string 
 
 resource caEnvironment 'Microsoft.App/managedEnvironments@2022-01-01-preview' existing = {
   name: containerAppsEnvName
@@ -38,7 +39,7 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' ={
         traffic: [
           {
             latestRevision: false
-            revisionName: 'mydeployment123'
+            revisionName: previousRevision
             weight: 100
           }
         ]
