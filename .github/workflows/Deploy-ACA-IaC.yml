@@ -25,22 +25,22 @@ jobs:
          run: az acr create --resource-group ${{ secrets.RESOURCE_GROUP }} --name ${{ secrets.ACR_NAME }} --sku Basic --admin-enabled true
 
 #------------------- Commit it if using Bicpe --------------------------------------------------------------------------
-#        - name: Setup Container App CLI Plugin
-#          run: az extension add --name containerapp --upgrade
+       - name: Setup Container App CLI Plugin
+         run: az extension add --name containerapp --upgrade
 
-#        - name: AZ Config Set Extension
-#          run: az config set extension.use_dynamic_install=yes_without_prompt
+       - name: AZ Config Set Extension
+         run: az config set extension.use_dynamic_install=yes_without_prompt
 
-#        - name: Create Container App Environment
-#          run: az containerapp env create --name ${{ secrets.CONTAINER_APP_ENVIRONMENT }} --resource-group ${{secrets.RESOURCE_GROUP }} --location ${{ secrets.LOCATION }}
+       - name: Create Container App Environment
+         run: az containerapp env create --name ${{ secrets.CONTAINER_APP_ENVIRONMENT }} --resource-group ${{secrets.RESOURCE_GROUP }} --location ${{ secrets.LOCATION }}
          
-#        - name: Wait for Container App Environment to setup
-#          run: sleep 4m
+       - name: Wait for Container App Environment to setup
+         run: sleep 4m
          
-#        - name: Create Container App with nginx container
-#          run: az containerapp create --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --environment ${{ secrets.CONTAINER_APP_ENVIRONMENT }} --image nginx --target-port 8080 --ingress 'external' --revisions-mode 'multiple'
+       - name: Create Container App with nginx container
+         run: az containerapp create --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --environment ${{ secrets.CONTAINER_APP_ENVIRONMENT }} --image nginx --target-port 8080 --ingress 'external' --revisions-mode 'multiple'
          
-#        - name: Set Container Registry
-#          run: az containerapp registry set -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --server ${{ secrets.ACR_NAME }}.azurecr.io 
+       - name: Set Container Registry
+         run: az containerapp registry set -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --server ${{ secrets.ACR_NAME }}.azurecr.io 
 #--------------------------------------------------------------------------------------------------------------------------
          
