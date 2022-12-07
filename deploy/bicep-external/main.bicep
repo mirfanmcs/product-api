@@ -11,7 +11,7 @@ param registryName string
 //param registryPassword string
 
 //param registryUsername string
-param productApiImage string
+param containerImage string
 //param viewerImage string
 
 
@@ -103,7 +103,7 @@ module productApiapp 'modules/container-app.bicep' = {
     appName: 'productapi'
     //registryPassword: registryPassword
     //registryUsername: registryUsername
-    containerImage: productApiImage
+    containerImage: containerImage
     httpPort: 8080
     registryServer: registryName
   }
