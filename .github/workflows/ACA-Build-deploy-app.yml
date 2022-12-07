@@ -63,9 +63,16 @@ jobs:
 
 
 #-------------------------- DEPLOY UING BICEP ---------------------------------------------
+     
       - name: Checkout to the branch
         uses: actions/checkout@v2
-              
+      
+      - name: Setup Container App CLI Plugin
+        run: az extension add --name containerapp --upgrade
+         
+      - name: AZ Config Set Extension
+        run: az config set extension.use_dynamic_install=yes_without_prompt
+
       - name: Deploy Bicep
         run: |
                 REV_COUNT=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "length([])")
