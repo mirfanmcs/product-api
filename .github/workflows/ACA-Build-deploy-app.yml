@@ -67,9 +67,12 @@ jobs:
         
       - name: Deploy Bicep
         run: |
-            az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/bicep-external/main.bicep --parameters \
-            productApiImage =${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }} \
-            registryName=${{ secrets.ACR_NAME }}.azurecr.io 
+            IMAGE= ${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}
+            echo $IMAGE
+        #run: |
+         #   az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/bicep-external/main.bicep --parameters \
+          #  productApiImage =${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }} \
+           # registryName=${{ secrets.ACR_NAME }}.azurecr.io 
             
         
        
