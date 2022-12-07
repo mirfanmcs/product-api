@@ -14,23 +14,23 @@ on:
   workflow_dispatch:      
 
 jobs:
-#   Build:
-#     runs-on: ubuntu-latest
+  Build:
+    runs-on: ubuntu-latest
 
-#     steps:
-#       - name: Checkout to the branch
-#         uses: actions/checkout@v2
+    steps:
+      - name: Checkout to the branch
+        uses: actions/checkout@v2
         
-#       - name: Build Solution
-#         run: mvn package
+      - name: Build Solution
+        run: mvn package
         
-#       - name: 'Login via Azure CLI'
-#         uses: azure/login@v1
-#         with:
-#           creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: 'Login via Azure CLI'
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
           
-#       - name: Build and Push image to Azure Container Registry
-#         run:  az acr build --registry ${{ secrets.ACR_NAME }} --image ${{ secrets.APP_NAME }}:${{ github.sha }} .
+      - name: Build and Push image to Azure Container Registry
+        run:  az acr build --registry ${{ secrets.ACR_NAME }} --image ${{ secrets.APP_NAME }}:${{ github.sha }} .
   Deploy:  
     runs-on: ubuntu-latest
 #     needs: Build
@@ -40,6 +40,7 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}    
        
+#-------------------------- DEPLOY UING AZ CLI ---------------------------------------------
 #       - name: Setup Container App CLI Plugin
 #         run: az extension add --name containerapp --upgrade
          
@@ -61,11 +62,10 @@ jobs:
 #               az containerapp ingress traffic set -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --revision-weight latest=0 $PREV_REV_NAME=100
 
 
-#-------------------------- DEPLOY VIA BICEP ---------------------------------------------
+#-------------------------- DEPLOY UING BICEP ---------------------------------------------
       - name: Checkout to the branch
         uses: actions/checkout@v2
-       
-       #     IMAGE= ${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}
+              
       - name: Deploy Bicep
         run: |
                 ACR_USERNAME=$(az acr credential show -n ${{ secrets.ACR_NAME }} --query username)
@@ -73,15 +73,11 @@ jobs:
                 ACR_PASSWORD=$(az acr credential show -n ${{ secrets.ACR_NAME }} --query  passwords[0].value)
                 ACR_PASSWORD=$(sed -e 's/^"//' -e 's/"$//' <<<"$ACR_PASSWORD")                         
                 az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/bicep-external/main.bicep --parameters \
-                containerImage='irfacr.azurecr.io/productapi:f1f1c776f7672b09da9c472bdd3552829b198353' \
-                registryName='irfacr.azurecr.io' \
+                containerImage='${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}' \
+                registryName='${{ secrets.ACR_NAME }}.azurecr.io' \
                 registryUsername=$ACR_USERNAME \
                 registryPassword=$ACR_PASSWORD
                 
-#         run: |
-#               az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/bicep-external/main.bicep --parameters \
-#                 containerImage='${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}' \
-#                 registryName='${{ secrets.ACR_NAME }}.azurecr.io'
                 
             
         
