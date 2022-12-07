@@ -38,6 +38,7 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' ={
         traffic: [
           {
             latestRevision: false
+            revisionName: 'mydeployment123'
             weight: 100
           }
         ]
