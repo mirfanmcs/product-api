@@ -76,6 +76,7 @@ jobs:
         run: az config set extension.use_dynamic_install=yes_without_prompt
 
 ## need latest revision here not the previous revision. 
+# az containerapp show --name productapi --resource-group test-irf --query 'properties.latestRevisionName'
       - name: Deploy Bicep
         run: |
                 REV_COUNT=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "length([])")
