@@ -14,26 +14,26 @@ on:
   workflow_dispatch:      
 
 jobs:
-  Build:
-    runs-on: ubuntu-latest
+#   Build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout to the branch
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Checkout to the branch
+#         uses: actions/checkout@v2
         
-      - name: Build Solution
-        run: mvn package
+#       - name: Build Solution
+#         run: mvn package
         
-      - name: 'Login via Azure CLI'
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+#       - name: 'Login via Azure CLI'
+#         uses: azure/login@v1
+#         with:
+#           creds: ${{ secrets.AZURE_CREDENTIALS }}
           
-      - name: Build and Push image to Azure Container Registry
-        run:  az acr build --registry ${{ secrets.ACR_NAME }} --image ${{ secrets.APP_NAME }}:${{ github.sha }} .
+#       - name: Build and Push image to Azure Container Registry
+#         run:  az acr build --registry ${{ secrets.ACR_NAME }} --image ${{ secrets.APP_NAME }}:${{ github.sha }} .
   Deploy:  
     runs-on: ubuntu-latest
-    needs: Build
+#     needs: Build
     steps:
       - name: 'Login via Azure CLI'
         uses: azure/login@v1
@@ -69,13 +69,14 @@ jobs:
       - name: Deploy Bicep
         run: |
               az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/bicep-external/main.bicep --parameters \
-                containerImage='${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}' \
-                registryName='${{ secrets.ACR_NAME }}.azurecr.io'
+                containerImage='irfacr.azurecr.io/productapi:f1f1c776f7672b09da9c472bdd3552829b198353' \
+                registryName='irfacr.azurecr.io'
                 
-        #run: |
-         #   az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/bicep-external/main.bicep --parameters \
-          #  productApiImage =${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }} \
-           # registryName=${{ secrets.ACR_NAME }}.azurecr.io 
+#         run: |
+#               az deployment group create -g ${{ secrets.RESOURCE_GROUP }} -f ./deploy/bicep-external/main.bicep --parameters \
+#                 containerImage='${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}' \
+#                 registryName='${{ secrets.ACR_NAME }}.azurecr.io'
+                
             
         
        
