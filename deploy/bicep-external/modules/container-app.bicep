@@ -18,29 +18,29 @@ resource containerApp 'Microsoft.App/containerApps@2022-03-01' ={
   properties:{
     managedEnvironmentId: caEnvironment.id
     configuration: {
-      secrets: [
-        {
-          name: 'registrypassword'
-          value: registryPassword
-        }
-      ]
+      //secrets: [
+//        {
+  //        name: 'registrypassword'
+    //      value: registryPassword
+      //  }
+      //]
       registries: [
         {
           server: registryServer
-          username: registryUsername
-          passwordSecretRef: 'registrypassword'
+        //  username: registryUsername
+//          passwordSecretRef: 'registrypassword'
         }
       ]
       ingress: {
         targetPort: httpPort
         external: true
       }
-      dapr: {
-        enabled: true
-        appId: appName
-        appProtocol: 'http'
-        appPort: httpPort
-      }
+//      dapr: {
+//        enabled: true
+//        appId: appName
+//        appProtocol: 'http'
+//        appPort: httpPort
+//      }
     }
     template: {
       containers: [
