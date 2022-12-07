@@ -75,6 +75,7 @@ jobs:
       - name: AZ Config Set Extension
         run: az config set extension.use_dynamic_install=yes_without_prompt
 
+## need latest revision here not the previous revision. 
       - name: Deploy Bicep
         run: |
                 REV_COUNT=$(az containerapp revision list --name ${{ secrets.APP_NAME }} --resource-group ${{ secrets.RESOURCE_GROUP }} --query "length([])")
@@ -91,7 +92,7 @@ jobs:
                 registryName='${{ secrets.ACR_NAME }}.azurecr.io' \
                 registryUsername=$ACR_USERNAME \
                 registryPassword=$ACR_PASSWORD \ 
-                previousRevision=$PREV_REV_NAME 
+                previousRevision='productapi--b8desjc' 
                 
                 
           
