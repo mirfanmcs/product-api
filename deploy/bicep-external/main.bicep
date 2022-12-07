@@ -7,13 +7,12 @@ param appInsightsName string = 'appinsights-${uniqueSuffix}'
 param registryName string
 param appName string
 param containerPort int 
+param containerImage string
 
 @secure()
 param registryPassword string
-
 param registryUsername string
-param containerImage string
-//param viewerImage string
+
 
 
 // Log analytics and App Insights for visibility 
