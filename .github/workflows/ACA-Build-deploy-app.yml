@@ -40,7 +40,8 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}    
        
-#-------------------------- DEPLOY UING AZ CLI ---------------------------------------------
+#-------------------------- Deploy Using Az CLI ------------------------------------------------------------------------
+
 #       - name: Setup Container App CLI Plugin
 #         run: az extension add --name containerapp --upgrade
          
@@ -62,8 +63,9 @@ jobs:
 #               az containerapp ingress traffic set -n ${{ secrets.APP_NAME }} -g ${{ secrets.RESOURCE_GROUP }} --revision-weight latest=0 $PREV_REV_NAME=100
 
 
-#-------------------------- DEPLOY UING BICEP ---------------------------------------------
+#------------------------------------------------------------------------------------------------------------------------------
      
+#------------------------------ Deploy using Bicep ----------------------------------------------------------------------------
       - name: Checkout to the branch
         uses: actions/checkout@v2
       
@@ -92,6 +94,8 @@ jobs:
                 appName=${{ secrets.APP_NAME }}
                 containerPort=8080
                 
+          
+#------------------------------------------------------------------------------------------------------------------------------
                 
             
         
