@@ -91,8 +91,8 @@ jobs:
                 containerImage='${{ secrets.ACR_NAME }}.azurecr.io/${{ secrets.APP_NAME }}:${{ github.sha }}' \
                 registryName='${{ secrets.ACR_NAME }}.azurecr.io' \
                 registryUsername=$ACR_USERNAME \
-                registryPassword=$ACR_PASSWORD \ 
-                previousRevision='productapi--b8desjc' 
+                registryPassword=$ACR_PASSWORD 
+                 
                 
                 
           
