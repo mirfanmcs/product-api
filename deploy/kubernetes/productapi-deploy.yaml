@@ -17,3 +17,7 @@ spec:
           image: <<ACR name>>.azurecr.io/productapi
           ports:
           - containerPort: 8080
+
+            #Expose using load balancer
+            #kubectl expose deploy productapi --name=productapi-svc --type=LoadBalancer
+            #Calling from browser: http://<<public IP>>:8080/api/product
