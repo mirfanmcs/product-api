@@ -19,3 +19,6 @@ security:
 management:
   security:
     enabled: false
+azure:
+  application-insights:
+    instrumentation-key: <<instrumentation key from portal>>
