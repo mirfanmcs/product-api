@@ -1,0 +1,7 @@
+name: My Composite Action
+description: This action runs multiple steps
+runs:
+  using: "composite"
+  steps:
+    - run: echo "Step 1"
+    - run: echo "Step 2"
