@@ -11,12 +11,5 @@ jobs:
     runs-on: self-hosted
     steps:
       - run: |
-          echo "🎉 The job was triggered by event: ${{ github.event_name }}"
-          echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ."
-
-      - uses: actions/checkout@v3.3.0
-
-      - name: List files in the repository
-        run: |
-          echo "The repository ${{ github.repository }} contains the following files:"
-          tree
+          echo "🎉 The job was triggered by event: ${{ github.event_name }} in self hosted runner"
+          
